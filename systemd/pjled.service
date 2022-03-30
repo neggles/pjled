@@ -5,8 +5,8 @@ After=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/usr/local/bin/pjled set
-ExecStop=/usr/local/bin/pjled blink
+ExecStart=/usr/local/bin/pjled set -c 30a
+ExecStop=/usr/local/bin/pjled blink -c a03
 
 [Install]
 WantedBy=multi-user.target

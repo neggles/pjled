@@ -63,7 +63,7 @@ def set(led, color):
 
 @cli.command()
 @click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default=pj_led)
-@click.option("-c", "--color", default="aa00aa", help="hex color to set (6cf, 66ccff)")
+@click.option("-c", "--color", default="aa0033", help="hex color to set (6cf, 66ccff)")
 @click.option("-d", "--duration", default=250, help="on-duration")
 def blink(led, color, duration):
     # clamp to 490ms on, 10ms off, and vice-versus
