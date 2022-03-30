@@ -47,9 +47,9 @@ def cli(verbose):
 @click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default="D2")
 def clear(led):
     logging.info(f"turning off {led}")
-    pijuice.status.SetLedBlink(led, 0, [0,0,0],0, [0,0,0],0)
-    result = pijuice.status.SetLedState(led, [0, 0, 0])
-    logging.info(f"result: {json.dumps(result)}")
+    res1 = pijuice.status.SetLedBlink(led, 0, [0, 0, 0], 0, [0, 0, 0], 0)
+    res2 = pijuice.status.SetLedState(led, [0, 0, 0])
+    logging.info(f"result: blink={json.dumps(res1)} set={json.dumps(res2)}")
     pass
 
 
