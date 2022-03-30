@@ -1,0 +1,11 @@
+[Unit]
+Description=Turn off PiJuice D2 after shutdown
+DefaultDependencies=no
+After=final.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/pjled clear
+
+[Install]
+WantedBy=final.target
