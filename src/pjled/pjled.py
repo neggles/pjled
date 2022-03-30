@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-from pprint import pprint
-import json
-import sys
 from typing import List
+import json
 import click
 import logging
 import logzero
@@ -44,7 +42,7 @@ def cli(verbose):
 
 
 @cli.command()
-@click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default="D2")
+@click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default=pj_led)
 def clear(led):
     logging.info(f"turning off {led}")
     res1 = pijuice.status.SetLedBlink(led, 0, [0, 0, 0], 0, [0, 0, 0], 0)
@@ -54,7 +52,7 @@ def clear(led):
 
 
 @cli.command()
-@click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default="D2")
+@click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default=pj_led)
 @click.option("-c", "--color", default="3300aa", help="hex color to set (6cf, 66ccff)")
 def set(led, color):
     logging.info(f"setting {led} to {color}")
@@ -64,13 +62,14 @@ def set(led, color):
 
 
 @cli.command()
-@click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default="D2")
-@click.option("-c", "--color", default="3300aa", help="hex color to set (6cf, 66ccff)")
+@click.option("-l", "--led", type=click.Choice(["D1", "D2"], case_sensitive=False), default=pj_led)
+@click.option("-c", "--color", default="aa00aa", help="hex color to set (6cf, 66ccff)")
 @click.option("-d", "--duration", default=250, help="on-duration")
 def blink(led, color, duration):
     # clamp to 490ms on, 10ms off, and vice-versus
     ontime = max(10, min(duration, 490))
-    offtime = min(10, max(500 - ontime, 10))
+    # having sanitized ontime we can cheat here
+    offtime = 500 - ontime
 
     logging.info(f"setting {led} to blink {color}, on={ontime}ms off={offtime}ms")
     result = pijuice.status.SetLedBlink(led, 255, hex2rgb(color), ontime, [0, 0, 0], offtime)
